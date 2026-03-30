@@ -1,3 +1,7 @@
-contenidovaleria.shop, 187.127.4.169 {
+contenidovaleria.shop {
+    reverse_proxy app:3000
+}
+
+http://187.127.4.169 {
     reverse_proxy app:3000
 }
