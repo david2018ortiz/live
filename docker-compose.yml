@@ -12,13 +12,14 @@ services:
     restart: always
 
   proxy:
-    image: caddy:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
     restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
