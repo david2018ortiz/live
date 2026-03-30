@@ -10,21 +10,16 @@ services:
         - NEXT_PUBLIC_TURN_USERNAME=${NEXT_PUBLIC_TURN_USERNAME}
         - NEXT_PUBLIC_TURN_PASSWORD=${NEXT_PUBLIC_TURN_PASSWORD}
     restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.live-app.rule=Host(`contenidovaleria.shop`)"
+      - "traefik.http.routers.live-app.entrypoints=websecure"
+      - "traefik.http.routers.live-app.tls.certresolver=myresolver"
+      - "traefik.http.services.live-app.loadbalancer.server.port=3000"
+    networks:
+      - traefik_network
+      - default
 
-  proxy:
-    build:
-      context: .
-      dockerfile: Dockerfile.proxy
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - app
-
-volumes:
-  caddy_data:
-  caddy_config:
+networks:
+  traefik_network:
+    external: true
