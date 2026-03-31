@@ -77,3 +77,21 @@ sudo systemctl restart caddy
 - **Ver logs de la app**: `pm2 logs live-app`
 - **Reiniciar app**: `pm2 restart live-app`
 - **Ver estado de Caddy**: `systemctl status caddy`
+
+## 6. Cómo actualizar cambios
+Cada vez que hagas cambios en el código desde tu PC local y quieras que se vean en el servidor:
+
+1.  **Desde tu PC**:
+    ```bash
+    git add .
+    git commit -m "Descripción de tus cambios"
+    git push origin main
+    ```
+
+2.  **Desde el Servidor (SSH)**:
+    ```bash
+    cd ~/apps/live
+    git pull origin main    # Baja los últimos cambios
+    npm run build          # Genera la nueva versión
+    pm2 restart live-app    # Reinicia la aplicación para que use lo nuevo
+    ```
